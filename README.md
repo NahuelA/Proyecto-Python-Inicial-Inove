@@ -14,9 +14,10 @@ El objetivo es analizar la información de los viajes realizados.
 - Recaudación
 - Fecha de llegada
 
-El fin del proyecto es poner a prueba los conocimientos dados en el primer módulo (python inicial).
+## Propósito del proyecto
+El propósito del proyecto es poner a prueba los conocimientos dados en el primer módulo (python inicial) del curso brindado por INOVE ARG.
 
-Otros fines del proyecto son:
+Otros propósitos del proyecto son:
 - Profundizar github
 - Aprender a crear un readme
 - Aprender a armar un programa de forma ordenada y limpia
