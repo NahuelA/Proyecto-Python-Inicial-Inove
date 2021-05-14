@@ -16,7 +16,7 @@ Descripción: Programa que permite analizar los movimientos de una flota de vehi
 import csv
 
 #importaciones de librerías propias
-import Modulos.Modulos as M
+import Modulos.Modulos as M # Me estás matando con la M! jajaja ponele otros nombres, más descriptivos, que es módulos? de qué se trata?
 
 
 
@@ -28,7 +28,7 @@ csv_file.writeheader()
 file.close() """
 
 
-#funciones básicas
+#funciones básicas --> Estos son valores o funciones?
 FIELDNAMES = ["fecha de salida", "patente", "empresa","tiempo recorrido", "recaudacion", "fecha de llegada","latitud", "longitud"]
 
 FILE = "seguimiento_flota.csv"
@@ -36,12 +36,12 @@ FILE = "seguimiento_flota.csv"
 def modify_record():
 
     date = str(input("Ingrese la fecha del registro que desea modificar: "))
-    print("")
+    print("") # Podes usar el \n para el salto de línea en vez de usar otro print :D
 
     file = open(FILE,"a")
     csv_file = list(csv.DictWriter(file), fieldnames=FIELDNAMES)
 
-    for i in csv_file:
+    for i in csv_file: # Se te ocurren otros nombres para estas variables? para que te quede tipo for activity_saved in vehicle_control_sheet
         #validación si existe un registro con esa fecha
         if date == i.get("fecha de salida"):
 
@@ -86,7 +86,7 @@ def main():
 
     #Pedir al usuario que ingrese como administrador o visitante
 
-    # variables globales
+    # variables globales --> Las variables globales van afuera de todas las funciones ;D
     NAME_ADMIN = "Admin"
     PASS_ADMIN = "Contraseña123"
     KEY_1 = False
