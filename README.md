@@ -15,6 +15,7 @@ El objetivo es analizar la información de los viajes realizados.
 - Fecha de llegada
 
 ## Propósito del proyecto
+
 El propósito del proyecto es poner a prueba los conocimientos dados en el primer módulo (python inicial) del curso brindado por INOVE ARG.
 
 Otros propósitos del proyecto son:
@@ -57,3 +58,5 @@ _Actualización de repositorio todos los Martes_
     - También se creó el archivo csv para guardar los análisis.
 
 - Siguiente actualización: **Martes 18 de Mayo del 2021**
+    - Se terminó de crear la función (crear registro)
+    - Se implementaron cambios pequeños en el código

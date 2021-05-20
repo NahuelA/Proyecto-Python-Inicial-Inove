@@ -16,30 +16,51 @@ Descripción: Programa que permite analizar los movimientos de una flota de vehi
 import csv
 
 #importaciones de librerías propias
-import Modulos.Modulos as M
-
-
+#import Modulos.Modulos
 
 #creación del archivo sólo con el encabezado
-""" file = open("Proyecto_integrador_python_inicial\seguimiento_flota.csv","w",newline='')
+"""
+file = open("Proyecto_integrador_python_inicial\seguimiento_flota.csv","w",newline='')
 
-csv_file = csv.DictWriter(file, fieldnames=fieldnames)
+csv_file = csv.DictWriter(file, fieldnames=FIELDNAMES)
 csv_file.writeheader()
-file.close() """
+file.close()
+"""
 
-
-#funciones básicas
+#Variables globales
 FIELDNAMES = ["fecha de salida", "patente", "empresa","tiempo recorrido", "recaudacion", "fecha de llegada","latitud", "longitud"]
-
 FILE = "seguimiento_flota.csv"
-#modificar un registro
+
+#funciones 
+
+def validation(NAME_ADMIN, PASS_ADMIN,KEY):
+    while True:
+        name = str(input("Ingrese nombre de usuario administrador: "))
+        password = str(input("Ingrese contraseña de administrador: "))
+        print("")
+                
+        if name == NAME_ADMIN and password == PASS_ADMIN:
+            print("Bienvenido {}".format(name))
+            print("")
+            KEY = True
+            break
+        elif name == "exit" or password == "exit":
+            exit()
+        else:
+            print("Datos de sesión incorrectos, intentelo de nuevo")
+            print("")
+
+
+#Herramientas para administradores
+
+#Modificar un registro
 def modify_record():
 
     date = str(input("Ingrese la fecha del registro que desea modificar: "))
     print("")
 
     file = open(FILE,"a")
-    csv_file = list(csv.DictWriter(file), fieldnames=FIELDNAMES)
+    csv_file = list(csv.DictWriter((file), fieldnames=FIELDNAMES))
 
     for i in csv_file:
         #validación si existe un registro con esa fecha
@@ -51,31 +72,52 @@ def modify_record():
                 if i == record:
                     data = str(input("Ingrese los nuevos datos para el campo {} : ".format(i)))
                     
-                    modify_record = csv_file.get(record)
+                    get_record = csv_file.get(record)
                     if data == "":
-                        modify_record = [""]
+                        get_record = ""
                     else:
-                        modify_record = [data]
+                        get_record = data
                     break
             break
     file.close()
     
-    repeat = str(input("Desea modificar otros campos?: ")).upper()
-    if repeat == "SI":
+    #Para repetir la función
+    repeat_function = str(input("Desea modificar otros campos?: ")).upper()
+    if repeat_function == "SI":
         modify_record()
+    elif repeat_function == "EXIT":
+        exit()
+
 
 #crar un registro
 def create_record():
 
-    print("Rellene los campos correspondientes para crear un nuevo registro, 'SI ALGÚN CAMPO QUEDA VACÍO SE LO TOMARÁ COMO NONE'")
+    print("Rellene los campos correspondientes para crear un nuevo registro.\n 'SI ALGÚN CAMPO QUEDA VACÍO SE LO TOMARÁ COMO NONE'")
 
-    #recorrer todos el encabezado para rellenar todos los campos
+    #recorrer todo el encabezado para rellenar todos los campos
+    count_fieldnames = len(FIELDNAMES)
     for i in range(len(FIELDNAMES)):
         
-        fields = str(input("Ingrese los datos del campo {}:").format(FIELDNAMES[i]))
+        fields = str(input("Ingrese los datos del campo {}: ").format(FIELDNAMES[i]))
 
-        file = open(FILE,"a")
-        csv_file = list(csv.DictReader(file))
+        #Creando fila para el nuevo registro
+        row = {FIELDNAMES[i]:fields}
+        #LLamando la función para escribir la fila dentro del csv
+
+        with open(FILE,"a", newline="") as csv_open:
+            
+            writer = csv.DictWriter(csv_open, fieldnames=FIELDNAMES)
+            writer.writerow(row)
+        
+        repeat_function = str(input("Desea crear otro registro?: ")).upper()
+        if repeat_function == "SI":
+            create_record()
+        elif repeat_function == "EXIT":
+            exit()
+
+        #Muestra la cantidad de campos restantes para crear un registro
+        count_fieldnames = count_fieldnames - 1
+        print("Campos restantes: {}".format(count_fieldnames))
 
 
 #Inicio del programa
@@ -103,7 +145,7 @@ def main():
 
         if usuario_input == "A":
             #validación módulo
-            M.validation(NAME_ADMIN, PASS_ADMIN, KEY_1)
+            validation(NAME_ADMIN, PASS_ADMIN, KEY_1)
             break
         elif usuario_input == "V":
             name = str(input("Ingrese su nombre de visitante: "))
