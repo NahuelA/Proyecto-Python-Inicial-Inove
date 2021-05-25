@@ -60,3 +60,9 @@ _Actualización de repositorio todos los Martes_
 - Siguiente actualización: **Martes 18 de Mayo del 2021**
     - Se terminó de crear la función (crear registro)
     - Se implementaron cambios pequeños en el código
+
+- Siguiente actualización: **Martes 25 de Mayo del 2021**
+    - Se creó una función para recorrer el archivo csv hasta encontrar la fila deseada
+    - Se creó la función: eliminar registro
+    - Se modificó la función: modificar registro
+    - Se añadieron funcionalidades a main
