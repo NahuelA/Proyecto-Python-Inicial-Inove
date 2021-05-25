@@ -46,7 +46,7 @@ INSERTAR IMAGEN DE LA EJECUCIÓN
 
 
 ## Progreso de la construcción del programa
-_Actualización de repositorio todos los Martes_
+**_Actualización de repositorio todos los Martes_**
 
 - Fecha de inicio: **Martes 27 de Abril del 2021**
     - Se crearon los archivos necesarios y se implementó el inicio del programa.
@@ -63,6 +63,8 @@ _Actualización de repositorio todos los Martes_
 
 - Siguiente actualización: **Martes 25 de Mayo del 2021**
     - Se creó una función para recorrer el archivo csv hasta encontrar la fila deseada
-    - Se creó la función: eliminar registro
-    - Se modificó la función: modificar registro
+    - Se creó la función:
+        - eliminar registro
+    - Se modificó la función:
+        - modificar registro
     - Se añadieron funcionalidades a main
