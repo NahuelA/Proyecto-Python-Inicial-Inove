@@ -50,8 +50,8 @@ def validation(NAME_ADMIN, PASS_ADMIN):
             print("")
 #Función para recorrer todo el archivo csv hasta 
 # encontrarla fila con la fecha consultada
-def iteracion_get_date(date):
-
+def iteracion_get_date(date): # NOTE: --> Acá mandale get_date nomas ;D
+    # NOTE: Excelente la función.
     repeat = 1
     with open(FILE) as file_opn:
         csv_opn = list(csv.DictReader(file_opn))
@@ -150,6 +150,11 @@ def create_record():
         print("Campos restantes: {}\n".format(count_fieldnames))
 
     #Pasamos los elementos de la variable list_row al diccionario dict_row
+    # NOTE: Acá podes crear el diccionario a partir de las dos listas con ZIP:
+    # dict_row = dict(zip(FIELDNAMES, list_row))
+    # Pero solo si FIELDNAMES y list_row tienen la misma cantidad de elementos, sino tenes que limitarlo vos con el slicing:
+    # dict_row = dict(zip(FIELDNAMES[0:7], list_row[0:7]))
+    # Probalo :D    
     dict_row = {FIELDNAMES[0]:list_row[0],FIELDNAMES[1]:list_row[1],FIELDNAMES[2]:list_row[2],FIELDNAMES[3]:list_row[3],FIELDNAMES[4]:list_row[4],FIELDNAMES[5]:list_row[5],FIELDNAMES[6]:list_row[6],FIELDNAMES[7]:list_row[7]}
 
     #Abrimos el archivo csv para añadir un nuevo registro
@@ -171,7 +176,6 @@ def create_record():
 
 #Eliminar un registro
 def record_delete():
-
     inp_delete = str(input("Ingrese la fecha del registro que desea eliminar: ")).upper()
 
     if inp_delete == "":
@@ -227,9 +231,11 @@ def main():
     
     #bucle para administradores
     while KEY_1:
+        # NOTE: Meté el mensaje en un string largo con triple comillas ''' hola bla bla bla '''
+        # Así podes hacer saltos de línea tranquilo sin estar fuera del PEP8
         print("¿Qué desea realizar? \n-Presione '1' para: Modificar un registro\n-Presione '2' para: Crear un registro \n-Presione '3' para: Eliminar un registro \n-Presione '4' para: Analizar un registro \n-Presione '5' para: Salir \n")
 
-        usuario_input = str(input(": "))
+        usuario_input = str(input(": ")) # NOTE: Todo en ingles o todo en castellano XD
         print("")
 
         while True:
@@ -251,6 +257,8 @@ def main():
                 #analyze_record()
                 pass
             elif usuario_input == "5":
+                # NOTE: Meté el mensaje en un string largo con triple comillas ''' hola bla bla bla '''
+                # Así podes hacer saltos de línea tranquilo sin estar fuera del PEP8
                 verify_exit = str(input("Está seguro que desea salir del programa? \n -SI PARA SALIR \n -INGRESE CUALQUIER CARACTER PARA CANCELAR: ")).capitalize()
 
                 if verify_exit == "Si":
