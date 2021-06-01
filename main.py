@@ -14,6 +14,7 @@ Descripción: Programa que permite analizar los movimientos de una flota de vehi
 """
 #importaciones de librerías estandar
 import csv
+from os import write
 from typing import Iterable
 
 #importaciones de librerías propias
@@ -48,143 +49,158 @@ def validation(NAME_ADMIN, PASS_ADMIN):
         else:
             print("Datos de sesión incorrectos, intentelo de nuevo")
             print("")
+
 #Función para recorrer todo el archivo csv hasta 
 # encontrarla fila con la fecha consultada
-def iteracion_get_date(date):
-
-    repeat = 1
+def get_date():
+    
+    repeat = True
     with open(FILE) as file_opn:
         csv_opn = list(csv.DictReader(file_opn))
-        
-        #Recorre el archivo csv y verifico si existe la fecha consultada
+        date = str(input("Ingrese la fecha del registro que desea modificar: "))
+        print("")
+        #Recorre el archivo csv y verifico si existe la fecha consultada    
         for read_csv_opn in range(len(csv_opn)):
             if csv_opn[read_csv_opn].get("fecha de salida") == date:
-                break
+                repeat = False
+                #Retorna el índice del la fila que se modificará
+                return read_csv_opn
+            elif date == "exit":
+                exit()
             else:
                 print("No se ha encontrado ningún registro con esa fecha, vuelve a intentarlo\n")
-                repeat = 0
-        #Retorna el índice de la fila en la que se encuentra
-        #el valor que deseamos modificar
-        return read_csv_opn, repeat
+        
 
 #------------------------------------------------------------------------------.
 #Herramientas para administradores
 #------------------------------------------------------------------------------.
-
 #Modificar un registro
 def modify_record():
 
-    date = str(input("Ingrese la fecha del registro que desea modificar: "))
-    print("")
-    #Recorro el archivo csv y verifico si 
-    #existe un registro con la fecha indicada
-    iteracion_get_date(date)
-    
-    #Obtengo el return[1] de la funcíon iteración_get_date
-    repeat = iteracion_get_date(date)[1]
-    #si dicha función me retorna 1 entonces no repito la función modify_record()
-    #En cambio si la función retorna 0 utilizo la recursividad y vuelvo
-    #a llamar a la función modify_record()
-    if repeat == 0:
-        modify_record()
-    #abro el csv y lo almaceno en una matriz
-    file_opn = open(FILE)
-    csv_opn = list(csv.DictReader(file_opn))
-
-    #Validación de campo existente
     while True:
-        record_inp = str(input("Ingrese el campo que desea modificar: "))
-        if FIELDNAMES.count(record_inp) == 1:
-            break
+
+        #Recorro el archivo csv y verifico si 
+        #existe un registro con la fecha indicada
+        #Almacenar el valor de retorno en la variable row
+        row = get_date()
+        #abro el csv y lo almaceno en una matriz
+        file_opn = open(FILE)
+        csv_opn = list(csv.DictReader(file_opn))
+
+        #Validación de campo existente
+        while True:
+            record_inp = str(input("Ingrese el campo que desea modificar: "))
+            if FIELDNAMES.count(record_inp) == 1:
+                break
+            else:
+                print("No existe un campo con ese nombre, intentalo de nuevo\n")
+                continue
+            
+        data_record = str(input("\nIngrese los nuevos datos para el campo {}: ".format(record_inp)))
+
+        #Modifico los datos del registro elegido
+        if data_record == "":
+            csv_opn[row][record_inp] = ""
         else:
-            print("No existe un campo con ese nombre, intentalo de nuevo\n")
+            csv_opn[row][record_inp] = data_record
+        file_opn.close
+
+        #Abro el archivo csv para escribir los cambios realizados
+        file_opn = open(FILE,"w",newline="")
         
-    data_record = str(input("\nIngrese los nuevos datos para el campo {}: ".format(record_inp))).capitalize()3
+        writer = csv.DictWriter(file_opn, fieldnames=FIELDNAMES)
+        writer.writeheader()
+        writer.writerows(csv_opn)
+        
+        file_opn.close()
 
-    row = iteracion_get_date(date)[0]
-    #Modifico los datos del registro elegido
-    if data_record == "":
-        csv_opn[row][record_inp] = ""
-    else:
-        csv_opn[row][record_inp] = data_record
-    file_opn.close
-
-    #Abro el archivo csv para escribir los cambios realizados
-    file_opn = open(FILE,"w",newline="")
-    
-    writer = csv.DictWriter(file_opn, fieldnames=FIELDNAMES)
-    writer.writeheader()
-    writer.writerows(csv_opn)
-    
-    file_opn.close()
-
-    #Para repetir la función
-    repeat_function = str(input("Desea modificar otros campos?: ")).capitalize()
-    if repeat_function == "Si":
-        modify_record()
-    elif repeat_function == "Exit" or repeat_function == "No" or date == "exit" or data_record == "Exit" or record_inp == "exit":
-        exit()
+        #Para repetir la función
+        repeat_function = str(input("Desea modificar otros campos?: ")).capitalize()
+        if repeat_function == "Si":
+            modify_record()
+        elif repeat_function == "Exit" or repeat_function == "No" or data_record == "Exit" or record_inp == "Exit":
+            exit()
 
 
-#crar un registro
+#crear un registro
 def create_record():
 
-    print("Rellene los campos correspondientes para crear un nuevo registro.\n'SI ALGÚN CAMPO QUEDA VACÍO SE LO TOMARÁ COMO NONE'\n")
+    repeat = True
+    while repeat:
 
-    #recorrer todo el encabezado para rellenar todos los campos
-    count_fieldnames = len(FIELDNAMES)
-    #Creando lista para los datos del registro
-    list_row = []
-    
-    for field in range(len(FIELDNAMES)):
+        print("Rellene los campos correspondientes para crear un nuevo registro.\n'SI ALGÚN CAMPO QUEDA VACÍO SE LO TOMARÁ COMO NONE'\n")
+
+        #recorrer todo el encabezado para rellenar todos los campos
+        count_fieldnames = len(FIELDNAMES)
+        #Creando lista para los datos del registro
+        list_row = []
         
-        fields = str(input("Ingrese los datos del campo *{}*: ".format(FIELDNAMES[field]))).capitalize()
-        if fields == "Exit":
-            exit()
-        #Almacenamos el nuevo registro en la lista
-        data_field = fields
-        list_row.append(data_field)
-        
-        #Muestra la cantidad de campos restantes para crear un registro
-        count_fieldnames = count_fieldnames - 1
-        print("Campos restantes: {}\n".format(count_fieldnames))
-
-    #Pasamos los elementos de la variable list_row al diccionario dict_row
-    dict_row = {FIELDNAMES[0]:list_row[0],FIELDNAMES[1]:list_row[1],FIELDNAMES[2]:list_row[2],FIELDNAMES[3]:list_row[3],FIELDNAMES[4]:list_row[4],FIELDNAMES[5]:list_row[5],FIELDNAMES[6]:list_row[6],FIELDNAMES[7]:list_row[7]}
-
-    #Abrimos el archivo csv para añadir un nuevo registro
-    with open(FILE,"a") as csv_open:
+        for field in range(len(FIELDNAMES)):
             
-        writer = csv.DictWriter(csv_open, fieldnames=FIELDNAMES)
-        writer.writerow(dict_row)
-    
-    while True:
-        repeat_function = str(input("Desea crear otro registro?\n-Si\n-No\n-Exit\n: ")).capitalize()
+            fields = str(input("Ingrese los datos del campo *{}*: ".format(FIELDNAMES[field]))).capitalize()
+            if fields == "Exit":
+                exit()
+            #Almacenamos el nuevo registro en la lista
+            data_field = fields
+            list_row.append(data_field)
+            
+            #Muestra la cantidad de campos restantes para crear un registro
+            count_fieldnames = count_fieldnames - 1
+            print("Campos restantes: {}\n".format(count_fieldnames))
+
+        #Pasamos los elementos de la variable list_row al diccionario dict_row
+        dict_row = dict(zip(FIELDNAMES,list_row))
+
+        #Abrimos el archivo csv para añadir un nuevo registro
+        with open(FILE,"a") as csv_open:
+                
+            writer = csv.DictWriter(csv_open, fieldnames=FIELDNAMES)
+            writer.writerow(dict_row)
         
-        if repeat_function == "Si":
-            create_record()
-        elif repeat_function == "No":
-            break
-        else:
-            print("Ingresa una opción válida...\n")
+        while repeat:
+            repeat_ = str(input("Desea crear otro registro?\n-Si\n-No\n-Exit\n: ")).capitalize()
+                
+            if repeat_ == "Si":
+                pass
+            elif repeat_ == "No":
+                repeat = False
+            else:
+                print("Ingresa una opción válida...\n")
 
 
 #Eliminar un registro
 def record_delete():
 
-    inp_delete = str(input("Ingrese la fecha del registro que desea eliminar: ")).upper()
+    repeat = True
+    while repeat:
+        #Obtiene la fecha de registro y el indice de la fila
+        date = get_date()
+        with open(FILE) as file_opn:
+            #Abro el csv para eliminar el registro seleccionado
+            csv_file = list(csv.DictReader(file_opn))
+            csv_file.pop(date)
+        
+        with open(FILE,"w",newline="") as file_opn:
+            #Abro el csv para escribir los datos sin el registro eliminado
+            writer = csv.DictWriter(file_opn,fieldnames=FIELDNAMES)
+            writer.writeheader()
+            writer.writerows(csv_file)
+        
+        print("Eliminación exitosa!")
+        repeat_delete = str(input("Desea eliminar más registros?: ")).capitalize()
+        
+        if repeat_delete == "Si":
+            pass
+        elif repeat_delete == "No":
+            repeat = False
+        elif repeat_delete == "Exit":
+            exit()
+                
 
-    if inp_delete == "":
-        print("Ingrese una fecha válida...")
-        record_delete()
-    elif inp_delete == "EXIT":
-        exit()
-    
-    file_open = open(FILE, "a", newline="")
-    csv_file = list(csv.DictWriter(file_open, fieldnames=FIELDNAMES))
+#Verificar un registro
+def verify_record():
+    pass
 
-    for record in range(len(csv_file)):
-        pass
 #------------------------------------------------------------------------------.
 #Inicio del programa main
 #------------------------------------------------------------------------------.
@@ -205,7 +221,7 @@ def main():
 
     usuario_input = str(input(": ")).upper()
 
-    while True:
+    while False:
 
         if usuario_input == "A":
             #validación módulo
@@ -226,7 +242,7 @@ def main():
             print("")
     
     #bucle para administradores
-    while KEY_1:
+    while True:
         print("¿Qué desea realizar? \n-Presione '1' para: Modificar un registro\n-Presione '2' para: Crear un registro \n-Presione '3' para: Eliminar un registro \n-Presione '4' para: Analizar un registro \n-Presione '5' para: Salir \n")
 
         usuario_input = str(input(": "))
