@@ -68,7 +68,7 @@ INSERTAR IMAGEN DE LA EJECUCIÓN
     - Se modificó la función:
         - modificar registro
     - Se añadieron funcionalidades a main
-- Siguiente actualización: **Martes 31 de Mayo del 2021**
+- Siguiente actualización: **Martes 01 de Junio del 2021**
     -Se modificó la función:
         -get_date
         -modify_record
