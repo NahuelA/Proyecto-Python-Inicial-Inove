@@ -14,11 +14,8 @@ Descripción: Programa que permite analizar los movimientos de una flota de vehi
 """
 #importaciones de librerías estandar
 import csv
-from os import write
-from typing import Iterable
-
-#importaciones de librerías propias
-#import Modulos.Modulos
+# from os import write
+# from typing import Iterable
 
 #creación del archivo sólo con el encabezado
 """
@@ -30,46 +27,69 @@ file.close()
 """
 
 #Variables globales
-FIELDNAMES = ["fecha de salida", "patente", "empresa","tiempo recorrido", "recaudacion", "fecha de llegada","latitud", "longitud"]
+FIELDNAMES = ["fecha de salida", "patente", "empresa","tiempo recorrido",
+              "recaudacion", "fecha de llegada","latitud", "longitud"
+             ]
 FILE = "seguimiento_flota.csv"
 
 #Función para validar inicio de sesión
 def validation(NAME_ADMIN, PASS_ADMIN):
     while True:
-        name = str(input("Ingrese nombre de usuario administrador: "))
-        password = str(input("Ingrese contraseña de administrador: "))
+        name = str(input("**Ingrese nombre de usuario administrador: "))
+        password = str(input("**Ingrese contraseña de administrador: "))
         print("")
                 
         if name == NAME_ADMIN and password == PASS_ADMIN:
-            print("Bienvenido {}!!".format(name))
+            print("**Bienvenido {}!!".format(name))
             print("")
             break
         elif name == "exit" or password == "exit":
             exit()
         else:
-            print("Datos de sesión incorrectos, intentelo de nuevo")
+            print("*Datos de sesión incorrectos, intentelo de nuevo*")
             print("")
 
+
 #Función para recorrer todo el archivo csv hasta 
-# encontrarla fila con la fecha consultada
-def get_date():
+#encontrar la fila con la fecha consultada
+def get_date(date):
     
     repeat = True
-    with open(FILE) as file_opn:
-        csv_opn = list(csv.DictReader(file_opn))
-        date = str(input("Ingrese la fecha del registro que desea modificar: "))
-        print("")
-        #Recorre el archivo csv y verifico si existe la fecha consultada    
-        for read_csv_opn in range(len(csv_opn)):
-            if csv_opn[read_csv_opn].get("fecha de salida") == date:
+    #Para repetir la función get_date, la variable date_repeat debe ser == a "repeat"
+    date_repeat = ""
+
+    while repeat:
+        with open(FILE) as file_opn:
+            csv_opn = list(csv.DictReader(file_opn))
+
+            #Recorre el archivo csv y verifico si existe la fecha consultada    
+            for read_csv_opn in range(len(csv_opn)):
+                if csv_opn[read_csv_opn].get("fecha de salida") == date:
+                    repeat = False
+                    #Retorna el índice del la fila que se modificará
+                    return read_csv_opn
+                elif date == "exit":
+                    exit()
+            #Comprobar si la fecha no se encontró
+            if csv_opn[read_csv_opn].get("fecha de salida") != date:
+                print("*No se ha encontrado ningún registro con esa fecha, vuelve a intentarlo*\n")
                 repeat = False
-                #Retorna el índice del la fila que se modificará
-                return read_csv_opn
-            elif date == "exit":
-                exit()
-            else:
-                print("No se ha encontrado ningún registro con esa fecha, vuelve a intentarlo\n")
-        
+                date_repeat = "repeat"
+                return date_repeat
+
+
+def examp_fieldnames(case):
+    #Ejemplos para guiarse a la hora de modificar o crear un registro
+    if case == "fecha de salida":
+        print("*Ejemplo: DD/MM/YY")
+    elif case == "patente":
+        print("as203fd")
+    elif case == "empresa":
+        print("*Correo argentino*")
+    elif case == "tiempo recorrido":
+        print("*total de horas viajadas*")
+    elif case == "recaudacion":
+        print("*Total de recaudado por hs*")
 
 #------------------------------------------------------------------------------.
 #Herramientas para administradores
@@ -77,32 +97,47 @@ def get_date():
 #Modificar un registro
 def modify_record():
 
-    while True:
+    repeat = True
+    while repeat:
 
-        #Recorro el archivo csv y verifico si 
+        date = str(input("-Ingrese la fecha del registro que desea modificar: "))
+        print("")
+        #Recorro el archivo csv y verifico si
         #existe un registro con la fecha indicada
         #Almacenar el valor de retorno en la variable row
-        row = get_date()
+        row = get_date(date)
+        #Si row es True vuelve a ejecutar el bucle desde el principio
+        #Esta condición se cumple si no se encuentra
+        #Ninguna fecha de la consultada
+        if row == "repeat":
+            continue
         #abro el csv y lo almaceno en una matriz
         file_opn = open(FILE)
         csv_opn = list(csv.DictReader(file_opn))
 
         #Validación de campo existente
         while True:
-            record_inp = str(input("Ingrese el campo que desea modificar: "))
+            record_inp = str(input("-Ingrese el campo que desea modificar: "))
             if FIELDNAMES.count(record_inp) == 1:
                 break
+            elif record_inp == "exit":
+                exit()
             else:
-                print("No existe un campo con ese nombre, intentalo de nuevo\n")
-                continue
-            
-        data_record = str(input("\nIngrese los nuevos datos para el campo {}: ".format(record_inp)))
-
-        #Modifico los datos del registro elegido
-        if data_record == "":
-            csv_opn[row][record_inp] = ""
-        else:
-            csv_opn[row][record_inp] = data_record
+                print("*No existe un campo con ese nombre, intentalo de nuevo*\n")
+        while True:
+            #Ejemplos para rellenar campos
+            examp_fieldnames(record_inp)
+            #Ingreso de datos
+            data_record = str(input(f"\n-Ingrese los nuevos datos para el campo {record_inp}: "))
+            #Modifico los datos del registro elegido
+            if data_record == "":
+                print("*No se permiten campos vacíos...*")
+            elif data_record == "exit":
+                exit()
+            else:
+                break
+        #Almaceno datos nuevos
+        csv_opn[row][record_inp] = data_record
         file_opn.close
 
         #Abro el archivo csv para escribir los cambios realizados
@@ -111,15 +146,19 @@ def modify_record():
         writer = csv.DictWriter(file_opn, fieldnames=FIELDNAMES)
         writer.writeheader()
         writer.writerows(csv_opn)
-        
         file_opn.close()
 
-        #Para repetir la función
-        repeat_function = str(input("Desea modificar otros campos?: ")).capitalize()
-        if repeat_function == "Si":
-            modify_record()
-        elif repeat_function == "Exit" or repeat_function == "No" or data_record == "Exit" or record_inp == "Exit":
-            exit()
+        #Salir de la función o volver a ejecutarla
+        while repeat:
+            repeat_function = str(input("-Desea modificar otros campos?: ")).capitalize()
+            if repeat_function == "Si":
+                pass
+            elif repeat_function == "No":
+                repeat = False
+            elif repeat_function == "Exit":
+                exit()
+            else:
+                print("-Ingrese una opción válida...\n")
 
 
 #crear un registro
@@ -128,25 +167,30 @@ def create_record():
     repeat = True
     while repeat:
 
-        print("Rellene los campos correspondientes para crear un nuevo registro.\n'SI ALGÚN CAMPO QUEDA VACÍO SE LO TOMARÁ COMO NONE'\n")
-
-        #recorrer todo el encabezado para rellenar todos los campos
+        print("-Rellene los campos correspondientes para crear un nuevo registro.\n")
+        #Recorrer todo el encabezado para rellenar todos los campos
         count_fieldnames = len(FIELDNAMES)
         #Creando lista para los datos del registro
         list_row = []
         
         for field in range(len(FIELDNAMES)):
-            
-            fields = str(input("Ingrese los datos del campo *{}*: ".format(FIELDNAMES[field]))).capitalize()
-            if fields == "Exit":
-                exit()
-            #Almacenamos el nuevo registro en la lista
-            data_field = fields
-            list_row.append(data_field)
-            
+            #Bucle para evitar campos vacíos
+            repeat_field = True
+            while repeat_field:
+                fields = str(input("-Ingrese los datos del campo *{}*: ".format(FIELDNAMES[field]))).capitalize()
+                #Exit para salir
+                if fields == "Exit":
+                    exit()
+                elif fields == "":
+                    print("-No se permiten campos vacíos...")
+                    continue
+                #Almacenamos el nuevo registro en la lista
+                data_field = fields
+                list_row.append(data_field)
+                repeat_field = False
             #Muestra la cantidad de campos restantes para crear un registro
-            count_fieldnames = count_fieldnames - 1
-            print("Campos restantes: {}\n".format(count_fieldnames))
+            count_fieldnames -= 1
+            print("-Campos restantes: {}\n".format(count_fieldnames))
 
         #Pasamos los elementos de la variable list_row al diccionario dict_row
         dict_row = dict(zip(FIELDNAMES,list_row))
@@ -156,29 +200,36 @@ def create_record():
                 
             writer = csv.DictWriter(csv_open, fieldnames=FIELDNAMES)
             writer.writerow(dict_row)
-        
+        #Salir de la función o volver a ejecutarla
         while repeat:
-            repeat_ = str(input("Desea crear otro registro?\n-Si\n-No\n-Exit\n: ")).capitalize()
-                
-            if repeat_ == "Si":
-                pass
-            elif repeat_ == "No":
+            repeat_create_rcd = str(input("Desea crear otro registro?\n-Si\n-No\n-Exit\n: ")).capitalize()
+            if repeat_create_rcd == "Si":
+                break
+            elif repeat_create_rcd == "No":
                 repeat = False
+            elif repeat_create_rcd == "Exit":
+                exit()
             else:
-                print("Ingresa una opción válida...\n")
+                print("-Ingrese una opción válida...\n")
 
 
 #Eliminar un registro
 def record_delete():
-
     repeat = True
     while repeat:
         #Obtiene la fecha de registro y el indice de la fila
-        date = get_date()
+        date = str(input("-Ingrese la fecha del registro que desea eliminar: "))
+        date_index = get_date(date)
+        #Si date_index es True vuelve a ejecutar el bucle desde el principio
+        #Esta condición se cumple si no se encuentra
+        #Ninguna fecha de la consultada
+        if date_index == "repeat":
+            continue
+
         with open(FILE) as file_opn:
             #Abro el csv para eliminar el registro seleccionado
             csv_file = list(csv.DictReader(file_opn))
-            csv_file.pop(date)
+            csv_file.pop(date_index)
         
         with open(FILE,"w",newline="") as file_opn:
             #Abro el csv para escribir los datos sin el registro eliminado
@@ -186,20 +237,71 @@ def record_delete():
             writer.writeheader()
             writer.writerows(csv_file)
         
-        print("Eliminación exitosa!")
-        repeat_delete = str(input("Desea eliminar más registros?: ")).capitalize()
-        
+        print("-Eliminación exitosa!")
+        #Salir de la función o volver a ejecutarla
+        while repeat:
+            repeat_delete = str(input("-Desea eliminar más registros?: ")).capitalize()
+            if repeat_delete == "Si":
+                break
+            elif repeat_delete == "No":
+                repeat = False
+            elif repeat_delete == "Exit":
+                exit()
+            else:
+                print("-Ingrese una opción válida...\n")
+                
+
+#Verificar un registro
+def analyze_record():
+
+    repeat = True
+    while repeat:
+        date = str(input(("-Ingrese la fecha del registro que desea verificar: ")))
+        date_index = get_date(date)
+        #Si date_index es True vuelve a ejecutar el bucle desde el principio
+        #Esta condición se cumple si no se encuentra
+        #Ninguna fecha de la consultada
+        if date_index == "repeat":
+            continue
+        #Abrimos el archivo
+        with open(FILE) as file_opn:
+            csv_file = list(csv.DictReader(file_opn))
+            get_record = csv_file[date_index]
+            #Analisis del registro:
+            #Transformar de hora a minuto:
+            time_ = int(csv_file[date_index].get("tiempo recorrido"))
+            hs_min = time_*60
+            #Total de dinero recaudado:
+            cash_ = int(csv_file[date_index].get("recaudacion"))
+            cash = cash_*time_
+            #Total de viajes realizados
+            travels = 0
+            #Obtener patente
+            patent = csv_file[date_index]["patente"]
+            for travel in csv_file:
+                if travel.get("patente") == patent:
+                    travels += 1
+
+        #Imprimir registro
+        print(f"-Registro número {date_index} impreso:")
+        print(get_record)
+        print(f"-Datos del viaje en la fecha: {date}")
+        print(f"Tiempo recorrido en horas: {time_}")
+        print(f"-Tiempo recorrido en minutos: {hs_min}")
+        print(f"-Dinero recaudado por horas trabajadas: ${cash}")
+        print(f"-Viajes realizados del vehículo {patent} : {travels}")
+        #Salir de la función o volver a ejecutarla
+        while repeat:
+            repeat_delete = str(input("-Desea eliminar más registros?: ")).capitalize()
         if repeat_delete == "Si":
-            pass
+            break
         elif repeat_delete == "No":
             repeat = False
         elif repeat_delete == "Exit":
             exit()
-                
+        else:
+            print("-Ingrese una opción válida...\n")
 
-#Verificar un registro
-def verify_record():
-    pass
 
 #------------------------------------------------------------------------------.
 #Inicio del programa main
@@ -207,21 +309,21 @@ def verify_record():
 def main():
 
     #Pedir al usuario que ingrese como administrador o visitante
-
     #Variables globales dentro de main
     NAME_ADMIN = "Admin"
+    NAME = ""
     PASS_ADMIN = "Contraseña123"
     KEY_1 = False
     KEY_2 = False
 
-    print("Ingrese como administrador o como visitante:")
-    print("Si es administrador, presione la tecla 'a'")
-    print("Si es visitante, presione la tecla 'v'")
-    print("Si desea salir, presione la tecla 'x'")
+    while True:
 
-    usuario_input = str(input(": ")).upper()
+        print("Ingrese como administrador o como visitante:")
+        print("Si es administrador, presione la tecla 'a'")
+        print("Si es visitante, presione la tecla 'v'")
+        print("Si desea salir, presione la tecla 'x'")
 
-    while False:
+        usuario_input = str(input(": ")).upper()
 
         if usuario_input == "A":
             #validación módulo
@@ -229,7 +331,7 @@ def main():
             KEY_1 = True
             break
         elif usuario_input == "V":
-            name = str(input("Ingrese su nombre de visitante: "))
+            NAME = str(input("Ingrese su nombre de visitante: "))
             print("")
             KEY_2 = True
             break
@@ -238,11 +340,10 @@ def main():
             print("")
             exit()
         else:
-            print("Ingrese una opción valida...")
-            print("")
+            print("Ingrese una opción valida...\n")
     
     #bucle para administradores
-    while True:
+    while KEY_1:
         print("¿Qué desea realizar? \n-Presione '1' para: Modificar un registro\n-Presione '2' para: Crear un registro \n-Presione '3' para: Eliminar un registro \n-Presione '4' para: Analizar un registro \n-Presione '5' para: Salir \n")
 
         usuario_input = str(input(": "))
@@ -264,22 +365,24 @@ def main():
                 break
             elif usuario_input == "4":
                 #analizar registro
-                #analyze_record()
+                analyze_record()
                 pass
             elif usuario_input == "5":
                 verify_exit = str(input("Está seguro que desea salir del programa? \n -SI PARA SALIR \n -INGRESE CUALQUIER CARACTER PARA CANCELAR: ")).capitalize()
-
                 if verify_exit == "Si":
                     print(" \n Saliendo del programa...")
                     exit()
                 else:
                     print("")
                     break
-        continue
+            else:
+                print("Ingresa una opción válida...")
 
     #bucle para visitantes
     while KEY_2:
-        pass
+        print(f"Bienvenido visitante {NAME}!")
+        analyze_record()
+        break
 
 if __name__ == "__main__":
     main()
