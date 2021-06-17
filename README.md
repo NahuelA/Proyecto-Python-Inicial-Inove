@@ -42,9 +42,10 @@ _En este sector del readme se nombran y explican las funcionalidades del proyect
 
 - Iniciar sesion como administrador:
     - Usuario: **Admin**
-        -![Admin](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Admin.png)
     - Contraseña: **Contraseña123**
-        - ![Contraseña](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Contrase%C3%B1a.png)
+
+![Admin](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Admin.png)
+![Contraseña](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Contrase%C3%B1a.png)
 
 - Funciones de administrador:
     - Modificar un registro
