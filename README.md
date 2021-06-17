@@ -44,8 +44,7 @@ _En este sector del readme se nombran y explican las funcionalidades del proyect
     - Usuario: **Admin**
     - Contraseña: **Contraseña123**
 
-![Admin](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Admin.png)
-![Contraseña](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Contrase%C3%B1a.png)
+![Admin](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Administrador.png)
 
 - Funciones de administrador:
     - Modificar un registro
@@ -63,11 +62,10 @@ _En este sector del readme se nombran y explican las funcionalidades del proyect
 #### Modo de uso:
 
 - **(1)** Ingresar la fecha del registro que desea modificar
-    - ![Modificar_registro_fecha](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Modificar_registro_fecha.png)
 - **(2)** Ingresar el campo que desea modificar
-    - ![Modificar_registro_campo](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Modificar_registro_campo.png)
 - **(3)** Ingresar los datos nuevos
-    - ![Modificar_registro_datos](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Modificar_registro_datos.png)
+
+![Modificar_registro](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Modificar_registro.png)
 
 ### (2) Crear un registro:
 
@@ -76,7 +74,7 @@ _En este sector del readme se nombran y explican las funcionalidades del proyect
 #### Modo de uso:
 
 - **(1)** Completar los campos correspondientes del registro
-    - ![Crear_registro](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Crear_registro.png)
+![Crear_registro](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Crear_registro.png)
 
 ### (3) Eliminar un registro:
 
@@ -85,7 +83,7 @@ _En este sector del readme se nombran y explican las funcionalidades del proyect
 #### Modo de uso:
 
 - **(1)** Ingresar la fecha del registro que desea eliminar
-    - ![Eliminar_registro](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Eliminar_registro.png)
+![Eliminar_registro](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Eliminar_registro.png)
 
 ### (4) Analizar un registro:
 
@@ -94,10 +92,8 @@ _En este sector del readme se nombran y explican las funcionalidades del proyect
 #### Modo de uso:
 
 - **(1)** Ingrese el nombre del visitante
-    - ![Nombre_visitante](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Nombre_visitante.png)
 - **(2)** Ingrese la fecha que desea analizar
-    - ![Analizar_fecha](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Analizar_fecha.png)
-    - ![Analizar_registro](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Analizar_registro.png)
+![Analizar_registro](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Analizar_registro.png)
 
 ## Aclaraciones:
 
