@@ -12,7 +12,9 @@ El objetivo es analizar la información de los viajes realizados.
 - Empresa
 - Tiempo recorrido (en minutos)
 - Recaudación
-- Fecha de llegada
+- Fecha de llegada (sin uso aún)
+- latitud (fuera de servicio)
+- longitud (fuera de servicio)
 
 ## Propósito del proyecto
 
@@ -23,27 +25,98 @@ Otros propósitos del proyecto son:
 - Aprender a crear un readme
 - Aprender a armar un programa de forma ordenada y limpia
 - Mejorar la lógica de la programación
+- Transformarla en un servicio para producción
 - Seguir aprendiendo!
 
 ## Características del proyecto
 
-En este sector del readme se nombran y explican las funciones del programa:
+_En este sector del readme se nombran y explican las funcionalidades del proyecto:_
 
-Funcionalidades admitidas al iniciar como administrador:
+### Inicio del programa:
+**Al ejecutar el programa mostrará una interfaz gráfica como la siguente**
+![Inicio]()
 
-### (1) Modificar un registro de viaje:
+- Si presiona la tecla **a** entra como administrador
+- Si presiona la tecla **v** entra como visitante
+- Si presiona la tecla **x** sale del programa
 
-_Esta función permite cambiar los datos de un campo determinado_
+- Iniciar sesion como administrador:
+    - Usuario: **Admin**
+    - Contraseña: **Contraseña123**
 
-#### Modo de uso
+- Funciones de administrador:
+    - Modificar un registro
+    - Crear un registro
+    - Eliminar un registro
+    - Analizar un registro
 
-Al elegir dicha función, el usuario **admin** debe ingresar la fecha del registro guardado. Luego ingresar el campo deseado para modificarlo, ingresar los nuevos datos y listo.
+- Funciones de visitante:
+    - Analizar un registro
 
-INSERTAR IMAGEN DE LA EJECUCIÓN
+### (1) Modificar un registro:
+
+**Esta función permite cambiar los datos de un campo determinado**
+
+#### Modo de uso:
+
+- **(1)** Ingresar la fecha del registro que desea modificar
+![Inicio]()
+- **(2)** Ingresar el campo que desea modificar
+![Inicio]()
+- **(3)** Ingresar los datos nuevos
+![Inicio]()
 
 ### (2) Crear un registro:
 
+**Esta función permite crear un nuevo registro de flota**
 
+#### Modo de uso:
+
+- **(1)** Completar los campos correspondientes del registro
+![Inicio]()
+
+### (3) Eliminar un registro:
+
+**Esta función permite eliminar un registro de flota**
+
+#### Modo de uso:
+
+- **(1)** Ingresar la fecha del registro que desea eliminar
+![Inicio]()
+
+### (4) Analizar un registro:
+
+**Esta función permite analizar un registro de flota**
+![Inicio]()
+
+## Aclaraciones:
+
+- Se puede salir en cualquier momento al escribir "exit"
+- El proyecto puede sufrir actualizaciones en un futuro
+- Cualquier consulta al correo **nahuelarrascaeta22@gmail.com**
+
+## Pre-requisitos:
+
+Este programa no tiene ningún pre-requisito, puedes descargar el repositorio y jugar con él
+
+## Instalación:
+
+Para usar el programa debes descargar el repositorio github
+
+## Archivos que contiene el proyecto:
+
+Este proyecto consta de 4 archivos y un directorio con las imágenes para el readme
+
+- (1) Pictures **=> Directorio donde se almacenan imágenes de la ejecución del programa**
+- (2) Diagrama_proyector_inicial_PY_inove.jpg **=> diagrama del proyecto**
+- (3) main.py **=> Archivo principal para ejecutar el programa**
+- (4) README.md **=> archivo de información del proyecto**
+- (5) seguimiento_flota.csv **=> archivo csv en donde se almacenan los registros de viaje**
+
+## Herramientas que se usaron en el proyecto:
+
+- librería csv
+- https://app.diagrams.net/
 
 ## Progreso de la construcción del programa
 **_Actualización de repositorio todos los Martes_**
@@ -53,8 +126,8 @@ INSERTAR IMAGEN DE LA EJECUCIÓN
 
 - Siguiente actualización: **Martes 11 de Mayo del 2021**
     - Se crearon dos funciones para administrador:
-        - Modificar registro
-        - Crear registro
+        - modify_record
+        - create_record
     - También se creó el archivo csv para guardar los análisis.
 
 - Siguiente actualización: **Martes 18 de Mayo del 2021**
@@ -64,14 +137,30 @@ INSERTAR IMAGEN DE LA EJECUCIÓN
 - Siguiente actualización: **Martes 25 de Mayo del 2021**
     - Se creó una función para recorrer el archivo csv hasta encontrar la fila deseada
     - Se creó la función:
-        - eliminar registro
+        - record_delete
     - Se modificó la función:
-        - modificar registro
+        - modify_record
     - Se añadieron funcionalidades a main
+
 - Siguiente actualización: **Martes 01 de Junio del 2021**
     - Se modificó la función:
         - get_date
         - modify_record
         - record_delete
     - Se creó la función:
-        - verify_record
+        - analyze_record
+
+- Entrega final: **Martes 08 de Junio del 2021**
+    - Se modificó la función:
+        - get_date
+        - modify_record
+        - record_delete
+        - create_record
+        - analyze_record
+    - Se creó la función:
+        - examp_fieldnames
+
+## Autor:
+Nahuel_A
+
+## Licencia:

@@ -251,12 +251,12 @@ def record_delete():
                 print("-Ingrese una opción válida...\n")
                 
 
-#Verificar un registro
+#Analizar un registro
 def analyze_record():
 
     repeat = True
     while repeat:
-        date = str(input(("-Ingrese la fecha del registro que desea verificar: ")))
+        date = str(input(("-Ingrese la fecha del registro que desea Analizar: ")))
         date_index = get_date(date)
         #Si date_index es True vuelve a ejecutar el bucle desde el principio
         #Esta condición se cumple si no se encuentra
