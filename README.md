@@ -34,7 +34,7 @@ _En este sector del readme se nombran y explican las funcionalidades del proyect
 
 ### Inicio del programa:
 **Al ejecutar el programa mostrará una interfaz gráfica como la siguente**
-![Inicio]()
+![Inicio](https://github.com/NahuelA/Proyecto-Python-Inicial-Inove/blob/master/Pictures/Inicio.png)
 
 - Si presiona la tecla **a** entra como administrador
 - Si presiona la tecla **v** entra como visitante
